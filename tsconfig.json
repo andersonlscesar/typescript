@@ -101,6 +101,6 @@
     "skipLibCheck": true                                 /* Skip type checking all .d.ts files. */
   },
    "include": [
-    "5.advanced-types/2.type-guards/guards.ts"
+    "6.generics/1.intro/intro.ts"
    ]
 }
