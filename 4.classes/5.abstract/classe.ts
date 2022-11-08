@@ -1,6 +1,6 @@
 abstract class Department {
     private id: string
-    private name: string 
+     name: string 
     private employees: string[] = []
     private readonly salario: number = 2000
 
