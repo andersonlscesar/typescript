@@ -21,5 +21,12 @@ export class Gallery {
      */
     _onMouseOver(img) {
         this._mainImage.src = img.src;
+        this._removeHighLight();
+        img.classList.add('highlight');
+    }
+    _removeHighLight() {
+        this._images.forEach(img => {
+            img.classList.remove('highlight');
+        });
     }
 }

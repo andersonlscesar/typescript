@@ -121,6 +121,11 @@
   font-weight: 700;
 }
 
+.highlight {
+  box-shadow: 0 0 4px #0096c7;
+  transition: box-shadow 0.3s ease-in-out;
+}
+
 #main {
   padding-top: 10rem;
 }
@@ -134,6 +139,7 @@
   height: 60px;
   object-fit: contain;
   cursor: pointer;
+  border-radius: 5px;
 }
 #main .main-image {
   align-self: center;
