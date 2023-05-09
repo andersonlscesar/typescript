@@ -21,6 +21,5 @@ export class Gallery {
      */
     _onMouseOver(img) {
         this._mainImage.src = img.src;
-        console.log(img.src);
     }
 }
