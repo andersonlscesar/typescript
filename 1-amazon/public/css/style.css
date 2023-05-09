@@ -1,4 +1,5 @@
 /* =========== Font size ============*/
+/* ============== Mixin ==============*/
 .menu {
   background-color: #131921;
   height: 70px;
@@ -134,13 +135,16 @@
   object-fit: contain;
   cursor: pointer;
 }
+#main .main-image {
+  align-self: center;
+}
 #main .main-image__image {
   width: 100%;
 }
 
 .d-grid {
   display: grid;
-  grid-template-columns: 100px 600px 430px 320px;
+  grid-template-columns: 100px 500px 330px 300px;
   justify-content: center;
   gap: 2rem;
 }
@@ -191,6 +195,68 @@
   left: 0;
 }
 
+.tech-info {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+.tech-info span {
+  padding: 0.5rem;
+}
+
+/*
+================
+price
+================
+*/
+.price {
+  border: 1px solid rgba(141, 153, 174, 0.3);
+  padding: 1rem 2rem;
+  border-radius: 5px;
+}
+.price__button {
+  width: 100%;
+  margin-top: 10px;
+  padding: 1rem;
+  border: transparent;
+  border-radius: 30px;
+  cursor: pointer;
+  color: rgb(25, 34, 51);
+  font-weight: bold;
+}
+.price .add-cart {
+  background-color: #e0e1dd;
+}
+.price .buy {
+  background-image: linear-gradient(to right, #F6BC69, #F7C277, #F8C883, #F8C883, #FAD298);
+}
+.price__value {
+  font-size: 50px;
+  position: relative;
+  color: #343a40;
+}
+.price__value::before {
+  content: "R$";
+  position: absolute;
+  top: 10%;
+  left: -14%;
+  font-size: 14px;
+}
+.price__value::after {
+  content: "00";
+  position: absolute;
+  top: 10%;
+  right: -12%;
+  font-size: 14px;
+}
+.price__text {
+  background-image: linear-gradient(to right, #d9ed92, #b5e48c, #76c893, #34a0a4);
+  padding: 6px;
+  border-radius: 5px;
+  text-align: center;
+  color: #184e77;
+  margin: 1rem 0;
+}
+
 /*
 =====================
         RESET
@@ -216,7 +282,7 @@ body {
 }
 
 .container {
-  max-width: 1500px;
+  max-width: 1200px;
   padding: 0 1rem;
   margin: 0 auto;
 }

@@ -17,6 +17,7 @@
     }
 
     .main-image {
+        align-self: center;
         &__image {
             width: 100%;
         }
@@ -25,7 +26,7 @@
 
 .d-grid {
     display: grid;
-    grid-template-columns: 100px 600px 430px 320px;
+    grid-template-columns: 100px 500px 330px 300px;
     justify-content: center;
     gap: 2rem;
 }
@@ -77,5 +78,76 @@
         background-color: rgba(141, 153, 174, .3);
         bottom: 0;
         left: 0;
+    }
+}
+
+.tech-info {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    span {
+        padding: .5rem;
+    }
+}
+
+/*
+================
+price
+================
+*/
+
+.price {
+
+    border: 1px solid rgba(141, 153, 174, .3);
+    padding: 1rem 2rem;
+    border-radius: 5px;
+
+    &__button {
+        width: 100%;
+        margin-top: 10px;
+        padding: 1rem;
+        border: transparent;
+        border-radius: 30px;
+        cursor: pointer;
+        color:rgb(25, 34, 51);
+        font-weight: bold;
+    }
+
+    .add-cart {
+        background-color: #e0e1dd;
+    }
+    
+    .buy {
+        @include var.gradientBuyButton;
+    }
+
+    &__value {
+        font-size: var.$font-size-ex-large;
+        position: relative;
+        color: #343a40;
+
+        &::before {
+            content: 'R$';
+            position: absolute;
+            top: 10%;
+            left: -14%;
+            font-size: var.$font-size-normal;
+        }
+
+        &::after {
+            content: '00';
+            position: absolute;
+            top: 10%;
+            right: -12%;
+            font-size: var.$font-size-normal;
+        }
+    }
+
+    &__text {
+        background-image: linear-gradient(to right, #d9ed92, #b5e48c, #76c893, #34a0a4);
+        padding: 6px;
+        border-radius: 5px;
+        text-align: center;
+        color: #184e77;
+        margin: 1rem 0;
     }
 }

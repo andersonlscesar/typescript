@@ -8,4 +8,12 @@ $search-button-color: #f6bc69;
 
 $font-size-small: 10px;
 $font-size-normal: 14px;
+$font-size-large: 20px;
+$font-size-ex-large: 50px;
 
+
+/* ============== Mixin ==============*/
+
+@mixin gradientBuyButton() {
+    background-image: linear-gradient(to right, #F6BC69, #F7C277, #F8C883, #F8C883, #FAD298);
+}
