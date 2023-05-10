@@ -30,6 +30,14 @@ export class Gallery
     private _onMouseOver( img: HTMLImageElement ): void 
     {
         this._mainImage.src = img.src;
-        console.log( img.src)
+        this._removeHighLight();
+        img.classList.add( 'highlight' );
+    }
+
+    private _removeHighLight(): void 
+    {
+        this._images.forEach( img => {
+            img.classList.remove( 'highlight' );
+        } );
     }
 }
