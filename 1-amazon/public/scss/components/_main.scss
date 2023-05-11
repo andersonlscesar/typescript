@@ -24,8 +24,10 @@
 
     .main-image {
         align-self: center;
+        position: relative;
         &__image {
             width: 100%;
+            object-fit: contain;
         }
     }
 }
@@ -156,4 +158,31 @@ price
         color: #184e77;
         margin: 1rem 0;
     }
+}
+
+
+.lens {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100px;
+    width: 100px;
+    background-color: rgba(0, 150, 199, .5);
+    pointer-events: none;
+}
+
+.result {
+    position: absolute;
+    top: 50%;
+    right: -150%;
+    height: 600px;
+    width: 700px;
+    z-index: 10;
+    transform: translateY(-50%) scale(0);
+    border-radius: 5px;
+    transition: transform .2s ease-in-out;
+} 
+
+.show-result {
+    transform: translateY(-50%) scale(1);
 }
