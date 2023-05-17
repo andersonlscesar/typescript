@@ -269,8 +269,8 @@ price
   position: absolute;
   top: 0;
   left: 0;
-  height: 100px;
-  width: 100px;
+  height: 300px;
+  width: 300px;
   background-color: rgba(0, 150, 199, 0.5);
   pointer-events: none;
 }
