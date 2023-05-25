@@ -9,19 +9,36 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .3s ease-in-out;
+    overflow-y: auto;
+    padding: 3rem;
 
     &__img {
-        display: block;
- 
+        display: block; 
     }
 
     &__content {
         background-color: #fff;
-        min-height: 300px;
-        min-width: 500px;
+
+        width: 800px;
+        height: 500px;
         border-radius: 8px;
         position: relative;
         padding: 5rem;
+        margin-top: 2rem;
+        position: relative;
+
+        img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            height: 70%;
+            width: 80%;
+            object-fit: contain;
+        }
 
         i {
             position: absolute;
@@ -41,4 +58,10 @@
 
         }
     }
+}
+
+.modal--active {
+    opacity: 1;
+    pointer-events: all;
+    transition: opacity .3s ease-in-out;
 }
