@@ -5,7 +5,7 @@ type ModalInfo<U, I> = {
 
 export class Modal<T extends Node>
 {
-    private _btnCloseModal = document.querySelector( '.close-modal' ) as HTMLElement;
+    private _btnCloseModal = document.querySelector( '.close-modal' ) as HTMLElement; 
 
     constructor
     (
@@ -18,6 +18,10 @@ export class Modal<T extends Node>
         this._manageEvents();
     }
 
+    /**
+     * Manage all the events
+     */
+
     private _manageEvents(): void 
     {
         window.addEventListener( 'keyup', this._closeModalByEsc.bind( this ) );
@@ -26,7 +30,12 @@ export class Modal<T extends Node>
         this._images.forEach( ( img ) => {
             img.addEventListener( 'click', this._openModal.bind( this, img ) );
         } );
-    }   
+    }  
+    
+    /**
+     * It opens the modal element
+     * @param { T } img 
+     */
 
     private _openModal( img: T ): void 
     {
@@ -35,10 +44,19 @@ export class Modal<T extends Node>
         this._setImage( i );
     }
 
+    /**
+     * It closes the modal element
+     */
+
     private _closeModal(): void 
     {
         this._modal.modalContainer.classList.remove( 'modal--active' );
     }
+
+    /**
+     * this function is actived when the user press the escape key
+     * @param { KeyboardEvent } e 
+     */
 
     private _closeModalByEsc( e: KeyboardEvent): void 
     {
@@ -47,11 +65,20 @@ export class Modal<T extends Node>
         }
     }
 
+    /**
+     * By convention, it's like a standard, it possible click outside of the modal in order to close it
+     * @param { MouseEvent } e 
+     */
+
     private _outsideClick( e: MouseEvent ): void 
     {
         if ( e.target === this._modal.modalContainer) this._closeModal();
     }
 
+    /**
+     * It sets the src for the image in the modal
+     * @param { unknown} img 
+     */
 
     private _setImage( img: unknown ): void 
     {        
