@@ -8,10 +8,12 @@ export class Modal {
         this._manageEvents();
     }
     _manageEvents() {
+        window.addEventListener('keyup', this._closeModalByEsc.bind(this));
+        this._btnCloseModal.addEventListener('click', this._closeModal.bind(this));
+        this._modal.modalContainer.addEventListener('click', this._outsideClick.bind(this));
         this._images.forEach((img) => {
             img.addEventListener('click', this._openModal.bind(this, img));
         });
-        this._btnCloseModal.addEventListener('click', this._closeModal.bind(this));
     }
     _openModal(img) {
         this._modal.modalContainer.classList.add('modal--active');
@@ -20,6 +22,15 @@ export class Modal {
     }
     _closeModal() {
         this._modal.modalContainer.classList.remove('modal--active');
+    }
+    _closeModalByEsc(e) {
+        if (e.key === 'Escape') {
+            this._closeModal();
+        }
+    }
+    _outsideClick(e) {
+        if (e.target === this._modal.modalContainer)
+            this._closeModal();
     }
     _setImage(img) {
         let i = img;

@@ -20,10 +20,12 @@ export class Modal<T extends Node>
 
     private _manageEvents(): void 
     {
+        window.addEventListener( 'keyup', this._closeModalByEsc.bind( this ) );
+        this._btnCloseModal.addEventListener( 'click', this._closeModal.bind( this ) );
+        this._modal.modalContainer.addEventListener( 'click', this._outsideClick.bind( this ) );
         this._images.forEach( ( img ) => {
             img.addEventListener( 'click', this._openModal.bind( this, img ) );
         } );
-        this._btnCloseModal.addEventListener( 'click', this._closeModal.bind( this ) );
     }   
 
     private _openModal( img: T ): void 
@@ -37,6 +39,19 @@ export class Modal<T extends Node>
     {
         this._modal.modalContainer.classList.remove( 'modal--active' );
     }
+
+    private _closeModalByEsc( e: KeyboardEvent): void 
+    {
+        if ( e.key === 'Escape' ) {
+            this._closeModal();
+        }
+    }
+
+    private _outsideClick( e: MouseEvent ): void 
+    {
+        if ( e.target === this._modal.modalContainer) this._closeModal();
+    }
+
 
     private _setImage( img: unknown ): void 
     {        
