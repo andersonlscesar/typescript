@@ -1,3 +1,5 @@
+import { Drag } from './Drag.js';
+
 type ModalInfo<U, I> = {
     modalContainer: U,
     modalContent: I
@@ -6,6 +8,7 @@ type ModalInfo<U, I> = {
 export class Modal<T extends Node>
 {
     private _btnCloseModal = document.querySelector( '.close-modal' ) as HTMLElement; 
+    private _drag!: Drag;
 
     constructor
     (
@@ -15,6 +18,7 @@ export class Modal<T extends Node>
     {
         this._images = _images;
         this._modal = _modal;
+        this._drag = new Drag( this._modal.modalContent );
         this._manageEvents();
     }
 
@@ -51,6 +55,11 @@ export class Modal<T extends Node>
     private _closeModal(): void 
     {
         this._modal.modalContainer.classList.remove( 'modal--active' );
+        setTimeout( () => {
+            this._drag.isDragging = false;
+            this._drag.resetModalPosition();           
+
+        }, 200);
     }
 
     /**

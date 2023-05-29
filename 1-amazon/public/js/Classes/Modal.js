@@ -1,3 +1,4 @@
+import { Drag } from './Drag.js';
 export class Modal {
     constructor(_images, _modal) {
         this._images = _images;
@@ -5,6 +6,7 @@ export class Modal {
         this._btnCloseModal = document.querySelector('.close-modal');
         this._images = _images;
         this._modal = _modal;
+        this._drag = new Drag(this._modal.modalContent);
         this._manageEvents();
     }
     /**
@@ -32,6 +34,10 @@ export class Modal {
      */
     _closeModal() {
         this._modal.modalContainer.classList.remove('modal--active');
+        setTimeout(() => {
+            this._drag.isDragging = false;
+            this._drag.resetModalPosition();
+        }, 200);
     }
     /**
      * this function is actived when the user press the escape key

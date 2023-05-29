@@ -14,10 +14,12 @@
 
     &__img {
         display: block; 
+        user-select: none;
+        pointer-events: none;
     }
 
     &__content--grabbing {
-        cursor: grabbing;
+        cursor: grabbing!important;
     }
 
     &__content {
@@ -29,9 +31,7 @@
         width: 800px;
         height: 500px;
         border-radius: 8px;
-        position: relative;
         padding: 5rem;
-        margin-top: 2rem;
         cursor: grab;
 
         img {

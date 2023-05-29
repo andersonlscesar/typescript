@@ -308,9 +308,11 @@ price
 }
 .modal__img {
   display: block;
+  user-select: none;
+  pointer-events: none;
 }
 .modal__content--grabbing {
-  cursor: grabbing;
+  cursor: grabbing !important;
 }
 .modal__content {
   background-color: #fff;
@@ -321,9 +323,7 @@ price
   width: 800px;
   height: 500px;
   border-radius: 8px;
-  position: relative;
   padding: 5rem;
-  margin-top: 2rem;
   cursor: grab;
 }
 .modal__content img {
