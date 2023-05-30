@@ -46,9 +46,6 @@ export class Drag {
     }
     _setModalPosition(e) {
         const { height, width } = this._modal.getBoundingClientRect();
-        this._modal.style.top = `${this._currentY}px`;
-        this._modal.style.left = `${this._currentX}px`;
-        this._modal.setPointerCapture(e.pointerId);
         if (this._currentY - height / 2 < 0) {
             this._currentY = height / 2;
             this._modal.style.top = `${this._currentY}px`;
@@ -65,7 +62,33 @@ export class Drag {
             this._currentX = document.documentElement.clientWidth - width / 2;
             this._modal.style.left = `${this._currentX}px`;
         }
-        console.log(this._currentX, window.innerWidth);
+        if (this._currentY - height / 2 <= 0 && this._currentX - width / 2 <= 0) {
+            this._currentY = height / 2;
+            this._currentX = width / 2;
+            this._modal.style.top = `${this._currentY}px`;
+            this._modal.style.left = `${this._currentX}px`;
+        }
+        else if (this._currentY >= window.innerHeight - height / 2 && this._currentX - width / 2 <= 0) {
+            this._currentX = width / 2;
+            this._currentY = window.innerHeight - height / 2;
+            this._modal.style.top = `${this._currentY}px`;
+            this._modal.style.left = `${this._currentX}px`;
+        }
+        else if (this._currentY - height / 2 <= 0 && this._currentX >= document.documentElement.clientWidth - width / 2) {
+            this._currentY = height / 2;
+            this._currentX = document.documentElement.clientWidth - width / 2;
+            this._modal.style.top = `${this._currentY}px`;
+            this._modal.style.left = `${this._currentX}px`;
+        }
+        else if (this._currentY >= window.innerHeight - height / 2 && this._currentX >= document.documentElement.clientWidth - width / 2) {
+            this._currentY = window.innerHeight - height / 2;
+            this._currentX = document.documentElement.clientWidth - width / 2;
+            this._modal.style.top = `${this._currentY}px`;
+            this._modal.style.left = `${this._currentX}px`;
+        }
+        this._modal.style.top = `${this._currentY}px`;
+        this._modal.style.left = `${this._currentX}px`;
+        this._modal.setPointerCapture(e.pointerId);
     }
     resetModalPosition() {
         if (!this.isDragging) {
