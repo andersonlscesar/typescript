@@ -13,11 +13,11 @@ This project consists basically of a zoom image Amazon's clone.
 
 ## Site structure
 
-![site structure](/public/img/readme/site.png)
+![site structure]('./public/img/readme/site.png')
 
 
 ### Gallery 
 
 As the user is hovering the mouse cursor over the image. A new image is gonna be selected.
 
-![Gallery](/public/img/readme/gallery.gif)
+![Gallery]('./public/img/readme/gallery.gif')
