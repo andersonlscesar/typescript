@@ -13,7 +13,7 @@ This project consists basically of a zoom image Amazon's clone.
 
 ## Site structure
 
-![site structure]('./public/img/readme/site.png')
+<img src="public/img/readme/site.png">
 
 
 ### Gallery 
