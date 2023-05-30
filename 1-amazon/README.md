@@ -20,4 +20,15 @@ This project consists basically of a zoom image Amazon's clone.
 
 As the user is hovering the mouse cursor over the image. A new image is gonna be selected.
 
-![Gallery]('./public/img/readme/gallery.gif')
+<img src="public/img/readme/gallery.gif">
+
+
+### Zoom image 
+
+<img src="public/img/readme/zoom.gif">
+
+### Modal 
+
+<img src="public/img/readme/modal.gif">
+
+
