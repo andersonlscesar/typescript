@@ -66,47 +66,48 @@ export class Drag
     private _setModalPosition( e: PointerEvent ): void 
     {
         const { height, width } = this._modal.getBoundingClientRect();
-
-        
-        if ( this._currentY - height / 2 < 0 ) {
-            this._currentY =  height / 2;
-            this._modal.style.top = `${ this._currentY }px`;
-        } else if ( this._currentY > window.innerHeight - height / 2 ) {
-            this._currentY = window.innerHeight - height / 2;
-            this._modal.style.top = `${ this._currentY }px`;
-        } else if ( this._currentX - width / 2 < 0 ) {
-            this._currentX = width / 2;
-            this._modal.style.left = `${ this._currentX }px`;
-        } else if ( this._currentX > document.documentElement.clientWidth - width / 2 ) {
-            this._currentX =document.documentElement.clientWidth - width / 2;
-            this._modal.style.left = `${ this._currentX }px`;
-        }
-        
-        if ( this._currentY - height / 2 <= 0 && this._currentX - width / 2 <= 0) {
-            this._currentY =  height / 2;
-            this._currentX = width / 2;
-            this._modal.style.top = `${ this._currentY }px`;
-            this._modal.style.left = `${ this._currentX }px`;
-        } else if ( this._currentY >= window.innerHeight - height / 2 && this._currentX - width / 2 <= 0 ) {
-            this._currentX = width / 2;
-            this._currentY = window.innerHeight - height / 2;
-            this._modal.style.top = `${ this._currentY }px`;
-            this._modal.style.left = `${ this._currentX }px`;
-        } else if ( this._currentY - height / 2 <= 0 && this._currentX >= document.documentElement.clientWidth - width / 2) {
-            this._currentY =  height / 2;
-            this._currentX =  document.documentElement.clientWidth - width / 2;
-            this._modal.style.top = `${ this._currentY }px`;
-            this._modal.style.left = `${ this._currentX }px`;
-        } else if ( this._currentY >= window.innerHeight - height / 2 && this._currentX >= document.documentElement.clientWidth - width / 2) {
-            this._currentY = window.innerHeight - height / 2;
-            this._currentX = document.documentElement.clientWidth - width / 2;
-            this._modal.style.top = `${ this._currentY }px`;
-            this._modal.style.left = `${ this._currentX }px`;
-        }
-        
+        this._boundaries( height, width );        
         this._modal.style.top = `${ this._currentY }px`;
         this._modal.style.left = `${ this._currentX }px`;
         this._modal.setPointerCapture( e.pointerId );
+    }
+
+    private _boundaries( height: number, width: number ): void 
+    {        
+        switch (true) {
+            case this._currentY - height / 2 < 0:
+                this._currentY = height / 2;
+                break;
+            case this._currentY > window.innerHeight - height / 2:
+                this._currentY = window.innerHeight - height / 2;
+                break;
+            case this._currentX - width / 2 < 0:
+                this._currentX = width / 2;
+                this._modal.style.left = `${this._currentX}px`;
+                break;
+            case this._currentX > document.documentElement.clientWidth - width / 2:
+                this._currentX = document.documentElement.clientWidth - width / 2;
+                break;              
+        }    
+
+        switch (true) {
+            case this._currentY - height / 2 <= 0 && this._currentX - width / 2 <= 0:
+                this._currentY = height / 2;
+                this._currentX = width / 2;
+                break;
+            case this._currentY >= window.innerHeight - height / 2 && this._currentX - width / 2 <= 0:
+                this._currentX = width / 2;
+                this._currentY = window.innerHeight - height / 2;
+                break;
+            case this._currentY - height / 2 <= 0 && this._currentX >= document.documentElement.clientWidth - width / 2:
+                this._currentY = height / 2;
+                this._currentX = document.documentElement.clientWidth - width / 2;
+                break;
+            case this._currentY >= window.innerHeight - height / 2 && this._currentX >= document.documentElement.clientWidth - width / 2:
+                this._currentY = window.innerHeight - height / 2;
+                this._currentX = document.documentElement.clientWidth - width / 2;
+                break;
+        }
     }
     
     
