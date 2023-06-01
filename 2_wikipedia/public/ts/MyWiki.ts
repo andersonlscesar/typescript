@@ -48,7 +48,6 @@ class MyWiki
     private render( data: Array<JSONData> ): void
     {
         let html = '';
-        console.log(data)
         data.forEach( data => {
             html += `
                         <div class="results__card">

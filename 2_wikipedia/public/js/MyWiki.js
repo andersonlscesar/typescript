@@ -40,7 +40,6 @@ class MyWiki {
     }
     render(data) {
         let html = '';
-        console.log(data);
         data.forEach(data => {
             html += `
                         <div class="results__card">
