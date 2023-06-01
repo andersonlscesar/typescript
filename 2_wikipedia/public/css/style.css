@@ -154,6 +154,7 @@ form .search__input {
 
 .results__card {
     position: relative;
+    padding: 1rem;
 }
 
 .results__card::before {
