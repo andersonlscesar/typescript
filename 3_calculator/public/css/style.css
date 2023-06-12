@@ -1,0 +1,118 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+@font-face {
+    font-family: Digital;
+    src: url('/public/font/digital-7-font/Digital7Mono-Yz9J4.ttf');
+}
+
+:root {
+    --primary-color: #212529;
+    --secondary-color: #343a40;
+    --body-color: #e9ecef;
+    --equal-button: #427e04;
+    --highlight-button: #96d758;
+    --clear-button: #da736c;
+    --indicator-input: #94c1b9;
+}
+
+
+body {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--body-color);
+    font-family: Digital;
+}
+
+#calculator {
+    height: 600px;
+    width: 340px;
+    background-color: var(--primary-color);
+    border-radius: 10px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+
+}
+
+.calculator__display {
+    display: flex;
+    flex-direction: column;
+}
+
+.calculator__display .display__input {
+    width: 100%;
+    outline: none;
+    text-align: right;
+    border: transparent;
+    height: 100px;
+    background-color: var(--primary-color);
+    caret-color: var(--indicator-input);
+    color: white;
+    font-family: Digital;
+    font-size: 2.5rem;
+    transition: font-size .2s ease-in-out;
+    padding: .5rem;
+}
+
+.change--font-size {
+    font-size: 2rem!important;
+}
+
+.calculator__display .display__previous {
+    color: white;
+    text-align: right;
+    font-size: 1.8rem;
+    min-height: 30px;
+}
+
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+}
+
+.buttons button {
+    height: 70px;
+    width: 70px;
+    justify-self: center;
+    align-self: center;
+    border-radius: 50%;
+    font-family: Digital;
+    font-size: 2rem;
+    border: transparent;
+    background-color: var(--secondary-color);
+    color: white;
+    cursor: pointer;
+    transition: transform .1s ease-in-out;
+    outline: none!important;
+}
+
+.buttons button:active {
+    transform: scale(.9)!important;
+}
+
+.clear-button {
+    color: var(--clear-button)!important;
+}
+
+.parentese-button,
+.percent-button,
+.divider-button,
+.minus-button,
+.multi-button,
+.sum-button
+{
+    color: var(--highlight-button)!important;
+}
+
+.equal-button {
+    background-color: var(--equal-button)!important;
+}
+
