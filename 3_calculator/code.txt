@@ -1,0 +1,210 @@
+ private addEvents(): void 
+    {
+        this.clearButton.addEventListener('click', this.clearAll.bind( this ) );
+        /**
+         * Adicionando eventos para todos os botões da calculadora
+         */
+        this.buttons.forEach( button => {
+            button.addEventListener('click', this.displayInformation.bind( this ) );
+        } );
+
+        this.buttonsOperation.forEach( button => {
+            button.addEventListener('click', this.activeOperation.bind( this ) );
+        } );
+    }
+
+    /**
+     * Exibe as informações no display da calculadora através do click nos botões
+     * @param { MouseEvent } e 
+     */
+
+    private displayInformation( e: MouseEvent ): void 
+    {           
+        if ( !this.limitCaracter() ) {            
+            this.displayCurrent.innerHTML = this.formatNumber( this.preventZeros( this.displayCurrent.innerHTML += this.getButtonValue( e ) )  ) ;
+            this.validateComma();    
+        }        
+        this.changeFontSize();
+    }
+
+
+    /**
+     * Esta função impede que na calculadora haja uma expressão como: "00000000000"
+     * Aqui verificamos tbm se a expressão começou com "," e assim substituimos isso por "0,"
+     * Se o número "0" for digitado e em seguida for digitado o "8". O "0" será substituído pelo "8"
+     * 
+     * @param { string } value 
+     * @returns { string }
+     */
+
+
+    private preventZeros( value: string ): string
+    {
+        // Adiciona "0," caso o usuário insira apenas a virgula
+        if( value.startsWith(',')) {
+            return this.displayCurrent.innerHTML = '0,'; 
+        }
+
+        this.preventInvalidOperations();
+
+        switch( true ) {
+            case  /^0+/.test( value ): // Verificando se o usuário começou pelo 0 e está tentando inserir mais zeros
+                if ( /^0+[1-9]/.test(value)) { // Verfica se o user está digitando outro número diferente de zero (assim, substituimos o zero pelo novo número digitado)
+                    return this.displayCurrent.innerHTML.replace(/^0+[1-9]/, value.split('')[1]);
+                }
+                return this.displayCurrent.innerHTML.replace( /^0+/, '0').replace(/^0+[1-9]/, '0');
+            case /^0+[1-9]/.test(value):
+                return this.displayCurrent.innerHTML = value;            
+            case /^0+,[0-9]{0}/.test(value): 
+                return this.displayCurrent.innerHTML = value;   
+            default: 
+                return this.displayCurrent.innerHTML;
+        }
+    }
+
+    /**
+     * Limpa todas as informações no display
+     */
+
+    private clearAll(): void 
+    {
+        this.displayCurrent.innerHTML = '';
+        this.expressions = [];
+    }
+
+    /**
+     * Altera o tamanho da fonte quando a quantidade de caracteres for maior ou igual a 12
+     */
+
+    private changeFontSize(): void 
+    {
+        this.displayCurrent.innerText.length >= 12 ? this.displayCurrent.classList.add('change--font-size') : this.displayCurrent.classList.remove('change--font-size');
+    }
+
+    /**
+     * Esta função formata o número adequadamente em centenas, milhares ...
+     * @param { string } number 
+     * @returns { string }
+     */
+
+    private formatNumber( number: string ): string
+    {
+
+        console.log(this.expressions)
+        let newExp: string = '';
+        
+        newExp = number.split('.').join('');    
+
+        if(this.expressions.length >= 1) {
+            for(let i = 0; i < this.expressions.length; i++) {
+                        
+                if (this.expressions[i].length > 3 && !number.includes(',')) {
+                    newExp = newExp.replace(/(\d)(?=(\d{3})+$)/g, '$1.');
+                    console.log(newExp);
+                } else {
+                    newExp = number;
+                }   
+
+            }
+        }
+        
+        
+        
+        if (newExp.length > 3 && !number.includes(',')) {
+            newExp = newExp.replace(/(\d)(?=(\d{3})+$)/g, '$1.');
+        } else {
+            newExp = number;
+        }   
+
+        
+
+        return newExp;   
+    }
+    
+    /**
+     * Aqui estamos limitando a quantidade de caracteres que serão inseridos na calculadora
+     * @returns { boolean }
+     */
+
+    private limitCaracter(): boolean 
+    {
+        return this.displayCurrent.innerHTML.length === 19;
+    }
+    /**
+     * Esta função não permite que haja mais de uma virgula na expressão exibida na calculadora
+     */
+
+    private validateComma(): void 
+    {
+        let slices = this.displayCurrent.innerHTML.split(',');
+        if (slices.length > 2 ) this.displayCurrent.innerHTML = slices[0] + ',' + slices.slice(1).join('');
+    }
+
+    /**
+     * Esta função impede que o usuário insira os sinais das operações antes de qualquer número
+     */
+
+    private preventInvalidOperations(): void 
+    {
+        const startWithNumber = /^[0-9]+/g.test(this.displayCurrent.innerHTML);          
+
+        if ( !startWithNumber ) {
+            this.displayCurrent.innerHTML = '';
+        }
+    }
+
+    /**
+     * Função responsável por capturar o valor do botão que for clicado
+     * @param { MouseEvent } e
+     * @return { string }
+     */
+
+    private getButtonValue( e:  MouseEvent ): string
+    {
+        let button = <HTMLButtonElement> e.target;
+        return button.value;
+    }
+
+    private activeOperation(e: MouseEvent)
+    {
+        let op = <HTMLButtonElement> e.target;
+
+        //Verificando se a operação está disponível
+
+        switch(this.allowedExp.includes(op.value)) {
+            case op.value === '+': 
+                this.inputOperation(op.value);
+                break;
+        }
+        
+    }
+
+    /**
+     * Função cria um elemento span para diferenciar as operações dos números
+     * @param {string} op 
+     * @returns {HTMLSpanElement}
+     */
+
+
+    private createSpanElementForOperations(op: string): HTMLSpanElement
+    {
+        const span = document.createElement('span')
+        span.classList.add('operator')
+        span.innerText = op;
+        return span;
+    }
+
+    /**
+     * Está função insere as operações no display
+     * @param {string} op     * 
+     */
+
+
+    private inputOperation(op: string): void
+    {
+        const span = this.createSpanElementForOperations(op);
+        const exSplited = this.displayCurrent.innerHTML.split(`<span class="operator">${op}</span>`);
+        this.expressions = [];
+        this.expressions = exSplited;    
+        this.displayCurrent.appendChild(span);
+    }

@@ -18,6 +18,10 @@
     --indicator-input: #94c1b9;
 }
 
+.operator {
+    color: var(--equal-button);
+}
+
 
 body {
     height: 100vh;
@@ -46,7 +50,7 @@ body {
     flex-direction: column;
 }
 
-.calculator__display .display__input {
+.calculator__display .display__current {
     width: 100%;
     outline: none;
     text-align: right;
