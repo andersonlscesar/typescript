@@ -64,10 +64,31 @@ class Calculator {
                 child.nodeValue = this.formatNumber(child.nodeValue);
         });
     }
+    /********************************************************************************************************
+    *
+    *  Função responsável por verificar as expressões e realizar a formatação em dezenas, milhares etc ...
+    *  @param {string} value
+    *
+    ********************************************************************************************************/
     formatNumber(value) {
-        value = value.replace(/\./g, '');
+        value = this.preventMoreThanOneComma(value);
+        if (!value.includes(','))
+            value = value.replace(/\./g, '');
         if (value.length > 3 && !value.includes(','))
             value = value.replace(/(\d)(?=(\d{3})+$)/g, '$1.');
+        return value;
+    }
+    /***********************************************************************
+    *
+    *  Essa função não permite que haja mais de uma virgula por expressão
+    *
+    *  @param {string} value
+    *
+    ***********************************************************************/
+    preventMoreThanOneComma(value) {
+        let comma = value.split(',');
+        if (comma.length > 1)
+            value = comma[0] + ',' + comma.slice(1).join('');
         return value;
     }
     /*******************************
