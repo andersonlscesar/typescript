@@ -72,6 +72,7 @@ class Calculator {
     ********************************************************************************************************/
     formatNumber(value) {
         value = this.preventMoreThanOneComma(value);
+        value = this.validateZeros(value);
         if (!value.includes(','))
             value = value.replace(/\./g, '');
         if (value.length > 3 && !value.includes(','))
@@ -83,12 +84,39 @@ class Calculator {
     *  Essa função não permite que haja mais de uma virgula por expressão
     *
     *  @param {string} value
+    *  @returns {string}
     *
     ***********************************************************************/
     preventMoreThanOneComma(value) {
         let comma = value.split(',');
         if (comma.length > 1)
             value = comma[0] + ',' + comma.slice(1).join('');
+        return value;
+    }
+    /**********************************************************************************************************
+    *
+    *  Impede que o usuário tente inserir vários zeros
+    *
+    *  "000000000" = "0"
+    *
+    *  Caso o usuário digite "0" e em seguida um número entre 1-9, esse "0" será substituído por este número
+    *  "03" = "3"
+    *
+    *  @param {string} value
+    *  @returns {string}
+    *
+    **********************************************************************************************************/
+    validateZeros(value) {
+        const zeros = /^0+$/g;
+        const zeroFollowedByAnotherNumber = /^0[1-9]$/g;
+        if (value.startsWith(','))
+            value = '0,';
+        if (zeros.test(value)) {
+            value = value.replace(zeros, '0');
+        }
+        else if (zeroFollowedByAnotherNumber.test(value)) {
+            value = value.slice(1);
+        }
         return value;
     }
     /*******************************
