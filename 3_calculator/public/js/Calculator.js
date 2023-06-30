@@ -131,7 +131,7 @@ class Calculator {
     *
     ************************************************************************/
     validateSign(value) {
-        const startsWithSpan = /<span class=".*">.*<\/span>+/g; // Regex que verifica se a expressão começa com "<span></span>"
+        const startsWithSpan = /<span class=".*">[\+\-\x\/]<\/span>+/ig; // Regex que verifica se a expressão começa com "<span></span>"
         const firstItem = value[0].nodeType === 1 ? value[0] : null; // capturando apenas o primeiro item da NodeList e verificando se ele é  do tipo SPAN
         if (firstItem !== null) {
             const span = firstItem; // Casting do nodeChild para Span element
