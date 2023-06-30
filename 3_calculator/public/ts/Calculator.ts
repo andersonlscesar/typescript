@@ -77,6 +77,7 @@ class Calculator
     private observeChanges(): void 
     {
         const childNodes: NodeListOf<ChildNode> = this.displayCurrent.childNodes;
+        this.validateSign(childNodes); // validando sinais
         childNodes.forEach(child => {
             if (child.nodeType === 3) child.nodeValue = this.formatNumber(child.nodeValue as string);
         });
@@ -143,6 +144,34 @@ class Calculator
             value = value.slice(1);
         }
         return value;
+    }
+
+    /************************************************************************
+    *
+    *  Função responsável pela validação dos sinais "+,- .."              
+    *                                                                     
+    *  Aqui impediremos que o usuário comece a expressão com algum sinal. 
+    *  - + 9 | - 9 ..
+    * @param {NodeListOf<ChildNode>} value                                           
+    *                                                                     
+    *
+    ************************************************************************/
+
+
+    private validateSign(value: NodeListOf<ChildNode>)
+    {  
+        const startsWithSpan = /<span class=".*">.*<\/span>+/g; // Regex que verifica se a expressão começa com "<span></span>"
+        const firstItem = value[0].nodeType === 1 ? value[0] : null; // capturando apenas o primeiro item da NodeList e verificando se ele é  do tipo SPAN
+
+        if (firstItem !== null) {
+            const span = firstItem as HTMLSpanElement; // Casting do nodeChild para Span element
+            const spanString = span.outerHTML; // Conversão de span element para string
+            
+            if (startsWithSpan.test(spanString)) {
+                value[0].remove();
+            }
+        }
+
     }
 
 
