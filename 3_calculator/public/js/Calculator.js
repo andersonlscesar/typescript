@@ -1,7 +1,6 @@
 "use strict";
 class Calculator {
     constructor() {
-        this.allowedExp = ['+', '-', 'x', '/'];
         this.clearButton = document.querySelector('.clear-button');
         this.buttons = document.querySelectorAll('.primary');
         this.buttonsOperations = document.querySelectorAll('.op');
@@ -126,6 +125,8 @@ class Calculator {
     *
     *  Aqui impediremos que o usuário comece a expressão com algum sinal.
     *  - + 9 | - 9 ..
+    *
+    *
     * @param {NodeListOf<ChildNode>} value
     *
     *
@@ -134,10 +135,18 @@ class Calculator {
         const startsWithSpan = /<span class=".*">[\+\-\x\/]<\/span>+/ig; // Regex que verifica se a expressão começa com "<span></span>"
         const firstItem = value[0].nodeType === 1 ? value[0] : null; // capturando apenas o primeiro item da NodeList e verificando se ele é  do tipo SPAN
         if (firstItem !== null) {
-            const span = firstItem; // Casting do nodeChild para Span element
-            const spanString = span.outerHTML; // Conversão de span element para string
+            removeSign(firstItem);
+        }
+        for (let i = 0; i < value.length; i++) {
+            if (i % 2 === 0) {
+                removeSign(value[i]);
+            }
+        }
+        function removeSign(value) {
+            const span = value; // Casting do nodeChild para span element
+            const spanString = span.outerHTML; // Conversão de span para string
             if (startsWithSpan.test(spanString)) {
-                value[0].remove();
+                value.remove();
             }
         }
     }
