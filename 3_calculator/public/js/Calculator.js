@@ -132,39 +132,36 @@ class Calculator {
     *
     ************************************************************************/
     validateSign(value) {
-        const startsWithSpan = this.startsWithSpan(); // Regex que verifica se a expressão começa com "<span></span>"
         const firstItem = value[0].nodeType === 1 ? value[0] : null; // capturando apenas o primeiro item da NodeList e verificando se ele é  do tipo SPAN
         if (firstItem !== null) {
-            removeSign(firstItem);
+            this.removeSign(firstItem);
         }
         this.changeOperation(value);
-        // Impede que o sinal esteja logo no começo da expressão
-        function removeSign(value) {
-            const span = value; // Casting do nodeChild para span element
-            const spanString = span.outerHTML; // Conversão de span para string
-            if (startsWithSpan.test(spanString)) {
-                value.remove();
-            }
+    }
+    // Impede que o sinal esteja logo no começo da expressão
+    removeSign(value) {
+        const startsWithSpan = this.startsWithSpan(); // Regex que verifica se a expressão começa com "<span></span>"
+        const span = value; // Casting do nodeChild para span element
+        const spanString = span.outerHTML; // Conversão de span para string
+        if (startsWithSpan.test(spanString)) {
+            value.remove();
         }
     }
     changeOperation(children) {
-        var _a, _b, _c;
         for (let i = 0; i < children.length; i++) {
-            if (children[i].textContent === '%' && ((_a = children[i].nextSibling) === null || _a === void 0 ? void 0 : _a.nodeType) === 1) {
+            if (children[i].textContent === '%' && children[i].nextSibling?.nodeType === 1) {
                 let next = children[i].nextSibling;
                 if (next.textContent === '%') {
                     this.displayCurrent.replaceChild(next, next.previousSibling);
                 }
                 else {
                     next = children[i].nextSibling;
-                    if (((_b = next.nextSibling) === null || _b === void 0 ? void 0 : _b.nodeType) === 1) {
+                    if (next.nextSibling?.nodeType === 1) {
                         this.displayCurrent.replaceChild(next.nextSibling, next);
                     }
                 }
-                return;
             }
-            if (children[i].nodeType === 1 && ((_c = children[i].nextSibling) === null || _c === void 0 ? void 0 : _c.nodeType) === 1) {
-                console.log();
+            else if (children[i].nodeType === 1 && children[i].nextSibling?.nodeType === 1) {
                 this.displayCurrent.replaceChild(children[i].nextSibling, children[i]);
             }
         }

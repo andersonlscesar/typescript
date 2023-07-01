@@ -161,27 +161,27 @@ class Calculator
 
     private validateSign(value: NodeListOf<ChildNode>)
     {  
-        const startsWithSpan = this.startsWithSpan() ; // Regex que verifica se a expressão começa com "<span></span>"
         const firstItem = value[0].nodeType === 1 ? value[0] : null; // capturando apenas o primeiro item da NodeList e verificando se ele é  do tipo SPAN
-
+        
         if (firstItem !== null) {
-            removeSign(firstItem);
+            this.removeSign(firstItem);
         }
-
+        
         this.changeOperation(value);
-
-        // Impede que o sinal esteja logo no começo da expressão
-
-        function removeSign(value: ChildNode)
-        {
-            const span = value as HTMLSpanElement; // Casting do nodeChild para span element
-            const spanString = span.outerHTML; // Conversão de span para string
-            if (startsWithSpan.test(spanString)) {
-                value.remove();
-            }
+        
+    }
+    // Impede que o sinal esteja logo no começo da expressão
+    
+    private removeSign(value: ChildNode)
+    {
+        const startsWithSpan = this.startsWithSpan() ; // Regex que verifica se a expressão começa com "<span></span>"
+        const span = value as HTMLSpanElement; // Casting do nodeChild para span element
+        const spanString = span.outerHTML; // Conversão de span para string
+        if (startsWithSpan.test(spanString)) {
+            value.remove();
         }
     }
-
+    
     private changeOperation(children: NodeListOf<ChildNode>)
     {
         for (let i = 0; i < children.length; i++) {
@@ -198,11 +198,7 @@ class Calculator
                     }
                 }
                 
-                return;
-            }
-
-            if (children[i].nodeType === 1 && children[i].nextSibling?.nodeType === 1) {
-                console.log()
+            }else if (children[i].nodeType === 1 && children[i].nextSibling?.nodeType === 1) {
                 this.displayCurrent.replaceChild(children[i].nextSibling as ChildNode, children[i]);
             }
         }
