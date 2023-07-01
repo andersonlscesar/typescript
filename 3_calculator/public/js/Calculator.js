@@ -132,16 +132,13 @@ class Calculator {
     *
     ************************************************************************/
     validateSign(value) {
-        const startsWithSpan = /<span class=".*">[\+\-\x\/]<\/span>+/ig; // Regex que verifica se a expressão começa com "<span></span>"
+        const startsWithSpan = this.startsWithSpan(); // Regex que verifica se a expressão começa com "<span></span>"
         const firstItem = value[0].nodeType === 1 ? value[0] : null; // capturando apenas o primeiro item da NodeList e verificando se ele é  do tipo SPAN
         if (firstItem !== null) {
             removeSign(firstItem);
         }
-        for (let i = 0; i < value.length; i++) {
-            if (i % 2 === 0) {
-                removeSign(value[i]);
-            }
-        }
+        this.changeOperation(value);
+        // Impede que o sinal esteja logo no começo da expressão
         function removeSign(value) {
             const span = value; // Casting do nodeChild para span element
             const spanString = span.outerHTML; // Conversão de span para string
@@ -149,6 +146,38 @@ class Calculator {
                 value.remove();
             }
         }
+    }
+    changeOperation(children) {
+        var _a, _b, _c;
+        for (let i = 0; i < children.length; i++) {
+            if (children[i].textContent === '%' && ((_a = children[i].nextSibling) === null || _a === void 0 ? void 0 : _a.nodeType) === 1) {
+                let next = children[i].nextSibling;
+                if (next.textContent === '%') {
+                    this.displayCurrent.replaceChild(next, next.previousSibling);
+                }
+                else {
+                    next = children[i].nextSibling;
+                    if (((_b = next.nextSibling) === null || _b === void 0 ? void 0 : _b.nodeType) === 1) {
+                        this.displayCurrent.replaceChild(next.nextSibling, next);
+                    }
+                }
+                return;
+            }
+            if (children[i].nodeType === 1 && ((_c = children[i].nextSibling) === null || _c === void 0 ? void 0 : _c.nodeType) === 1) {
+                console.log();
+                this.displayCurrent.replaceChild(children[i].nextSibling, children[i]);
+            }
+        }
+    }
+    /************************************************************************************************
+    *
+    *  Retorna uma expressão que verifica se existe um espan com innerHTML = + ou - ou / ou x ou %
+    *
+    *  @returns {RegExp}
+    *
+    ************************************************************************************************/
+    startsWithSpan() {
+        return /<span class=".*">[\+\-\x\/\%]<\/span>+/ig;
     }
     /*******************************
     *

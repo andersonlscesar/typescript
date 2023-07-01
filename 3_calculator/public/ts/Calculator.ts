@@ -161,18 +161,16 @@ class Calculator
 
     private validateSign(value: NodeListOf<ChildNode>)
     {  
-        const startsWithSpan = /<span class=".*">[\+\-\x\/]<\/span>+/ig; // Regex que verifica se a expressão começa com "<span></span>"
+        const startsWithSpan = this.startsWithSpan() ; // Regex que verifica se a expressão começa com "<span></span>"
         const firstItem = value[0].nodeType === 1 ? value[0] : null; // capturando apenas o primeiro item da NodeList e verificando se ele é  do tipo SPAN
 
         if (firstItem !== null) {
             removeSign(firstItem);
         }
 
-        for(let i = 0; i < value.length; i++) {
-            if (i % 2 === 0) {
-               removeSign(value[i]);
-            }
-        }
+        this.changeOperation(value);
+
+        // Impede que o sinal esteja logo no começo da expressão
 
         function removeSign(value: ChildNode)
         {
@@ -182,11 +180,47 @@ class Calculator
                 value.remove();
             }
         }
-
-
-
     }
 
+    private changeOperation(children: NodeListOf<ChildNode>)
+    {
+        for (let i = 0; i < children.length; i++) {
+            if (children[i].textContent === '%' && children[i].nextSibling?.nodeType === 1) {
+                let next = children[i].nextSibling as ChildNode;
+
+                if (next.textContent === '%') {
+                    this.displayCurrent.replaceChild(next, next.previousSibling as ChildNode);
+                } else {
+                    next = children[i].nextSibling as ChildNode;
+
+                    if (next.nextSibling?.nodeType === 1) {
+                        this.displayCurrent.replaceChild(next.nextSibling as ChildNode, next);
+                    }
+                }
+                
+                return;
+            }
+
+            if (children[i].nodeType === 1 && children[i].nextSibling?.nodeType === 1) {
+                console.log()
+                this.displayCurrent.replaceChild(children[i].nextSibling as ChildNode, children[i]);
+            }
+        }
+    }
+
+
+    /************************************************************************************************
+    *
+    *  Retorna uma expressão que verifica se existe um espan com innerHTML = + ou - ou / ou x ou %
+    *                                                                                             
+    *  @returns {RegExp}                                                                          
+    *
+    ************************************************************************************************/
+
+    private startsWithSpan(): RegExp
+    {
+        return /<span class=".*">[\+\-\x\/\%]<\/span>+/ig;
+    }
 
     /*******************************
     *
