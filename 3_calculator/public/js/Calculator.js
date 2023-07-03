@@ -132,21 +132,36 @@ class Calculator {
     *
     ************************************************************************/
     validateSign(value) {
-        const firstItem = value[0].nodeType === 1 ? value[0] : null; // capturando apenas o primeiro item da NodeList e verificando se ele é  do tipo SPAN
-        if (firstItem !== null) {
+        const firstItem = value[0].nodeType === 1 ? value[0] : null; // capturando apenas o primeiro item da NodeList e verificando se ele é  do tipo SPAN        
+        if (firstItem !== null)
             this.removeSign(firstItem);
-        }
         this.changeOperation(value);
     }
-    // Impede que o sinal esteja logo no começo da expressão
+    /**********************************************************
+    *
+    *  Impede que o sinal esteja logo no começo da expressão
+    *
+    *  @param {ChildNode} value
+    *
+    **********************************************************/
     removeSign(value) {
         const startsWithSpan = this.startsWithSpan(); // Regex que verifica se a expressão começa com "<span></span>"
         const span = value; // Casting do nodeChild para span element
         const spanString = span.outerHTML; // Conversão de span para string
-        if (startsWithSpan.test(spanString)) {
+        if (startsWithSpan.test(spanString))
             value.remove();
-        }
     }
+    /*********************************************************************************
+    *
+    *  Aqui verificamos os sinais contidos na expressão e impedimos situações como:
+    *
+    *  9%----
+    *  9%+++
+    *  9+++
+    *
+    *  @param {NodeListOf<ChildNode>} children
+    *
+    *********************************************************************************/
     changeOperation(children) {
         for (let i = 0; i < children.length; i++) {
             if (children[i].textContent === '%' && children[i].nextSibling?.nodeType === 1) {
@@ -154,11 +169,9 @@ class Calculator {
                 if (next.textContent === '%') {
                     this.displayCurrent.replaceChild(next, next.previousSibling);
                 }
-                else {
+                else if (next.nextSibling?.nodeType === 1) {
                     next = children[i].nextSibling;
-                    if (next.nextSibling?.nodeType === 1) {
-                        this.displayCurrent.replaceChild(next.nextSibling, next);
-                    }
+                    this.displayCurrent.replaceChild(next.nextSibling, next);
                 }
             }
             else if (children[i].nodeType === 1 && children[i].nextSibling?.nodeType === 1) {

@@ -161,26 +161,39 @@ class Calculator
 
     private validateSign(value: NodeListOf<ChildNode>)
     {  
-        const firstItem = value[0].nodeType === 1 ? value[0] : null; // capturando apenas o primeiro item da NodeList e verificando se ele é  do tipo SPAN
-        
-        if (firstItem !== null) {
-            this.removeSign(firstItem);
-        }
-        
+        const firstItem = value[0].nodeType === 1 ? value[0] : null; // capturando apenas o primeiro item da NodeList e verificando se ele é  do tipo SPAN        
+        if (firstItem !== null) this.removeSign(firstItem);        
         this.changeOperation(value);
         
     }
-    // Impede que o sinal esteja logo no começo da expressão
+    
+    /**********************************************************
+    *
+    *  Impede que o sinal esteja logo no começo da expressão
+    *                                                       
+    *  @param {ChildNode} value                             
+    *
+    **********************************************************/
     
     private removeSign(value: ChildNode)
     {
         const startsWithSpan = this.startsWithSpan() ; // Regex que verifica se a expressão começa com "<span></span>"
         const span = value as HTMLSpanElement; // Casting do nodeChild para span element
         const spanString = span.outerHTML; // Conversão de span para string
-        if (startsWithSpan.test(spanString)) {
-            value.remove();
-        }
+        if (startsWithSpan.test(spanString)) value.remove();
     }
+
+    /*********************************************************************************
+    *
+    *  Aqui verificamos os sinais contidos na expressão e impedimos situações como:
+    *                                                                              
+    *  9%----                                                                      
+    *  9%+++                                                                       
+    *  9+++                                                                        
+    *                                                                              
+    *  @param {NodeListOf<ChildNode>} children                                     
+    *
+    *********************************************************************************/
     
     private changeOperation(children: NodeListOf<ChildNode>)
     {
@@ -190,12 +203,9 @@ class Calculator
 
                 if (next.textContent === '%') {
                     this.displayCurrent.replaceChild(next, next.previousSibling as ChildNode);
-                } else {
+                } else if(next.nextSibling?.nodeType === 1) {
                     next = children[i].nextSibling as ChildNode;
-
-                    if (next.nextSibling?.nodeType === 1) {
-                        this.displayCurrent.replaceChild(next.nextSibling as ChildNode, next);
-                    }
+                    this.displayCurrent.replaceChild(next.nextSibling as ChildNode, next)
                 }
                 
             }else if (children[i].nodeType === 1 && children[i].nextSibling?.nodeType === 1) {
