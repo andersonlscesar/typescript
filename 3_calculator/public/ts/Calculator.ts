@@ -39,6 +39,7 @@ class Calculator
         const btn = e.target as HTMLButtonElement;
         this.displayCurrent.innerHTML += btn.value;    
         this.observeChanges();
+        this.analyseExpression();
 
     }
 
@@ -215,6 +216,48 @@ class Calculator
     }
 
 
+    private analyseExpression()
+    {
+        let childNodes: NodeListOf<ChildNode> = this.displayCurrent.childNodes;
+        let arr: (string | ChildNode | null | undefined)[] = Array.from(childNodes).map(node => {
+            if(node.nodeType === Node.TEXT_NODE) {
+                return node.textContent;
+            } else if (node.nodeType === Node.ELEMENT_NODE && node.nodeName === 'SPAN') {
+                return node.textContent?.trim();
+            }
+            return node;
+        })
+
+        this.executeOperation(arr);
+        
+        
+    }
+
+
+    private executeOperation(arr: (string | ChildNode | null | undefined)[])
+    {   
+      
+        if (arr !== null && arr !== undefined) {
+
+
+        }
+    }
+
+
+    private sum(number: number): number 
+    {
+        return number + number;
+    }
+
+
+
+
+    private isNumber(value: string): boolean
+    {
+        return /^\d+$/.test(value);
+    }
+
+
     /************************************************************************************************
     *
     *  Retorna uma expressão que verifica se existe um espan com innerHTML = + ou - ou / ou x ou %
@@ -252,6 +295,9 @@ class Calculator
     {
         this.displayCurrent.innerHTML = '';
     }
+
+
+
 }
 
 

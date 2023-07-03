@@ -30,6 +30,7 @@ class Calculator {
         const btn = e.target;
         this.displayCurrent.innerHTML += btn.value;
         this.observeChanges();
+        this.analyseExpression();
     }
     /************************************************************************************************************
     *
@@ -178,6 +179,29 @@ class Calculator {
                 this.displayCurrent.replaceChild(children[i].nextSibling, children[i]);
             }
         }
+    }
+    analyseExpression() {
+        let childNodes = this.displayCurrent.childNodes;
+        let arr = Array.from(childNodes).map(node => {
+            if (node.nodeType === Node.TEXT_NODE) {
+                return node.textContent;
+            }
+            else if (node.nodeType === Node.ELEMENT_NODE && node.nodeName === 'SPAN') {
+                return node.textContent?.trim();
+            }
+            return node;
+        });
+        this.executeOperation(arr);
+    }
+    executeOperation(arr) {
+        if (arr !== null && arr !== undefined) {
+        }
+    }
+    sum(number) {
+        return number + number;
+    }
+    isNumber(value) {
+        return /^\d+$/.test(value);
     }
     /************************************************************************************************
     *
